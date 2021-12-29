@@ -18,7 +18,7 @@ buildscript {
         nav_version = "2.3.5"
         material_version = "1.4.0"
         play_services_auth_version = "19.2.0"
-        firebase_bom_version = "28.4.0"
+        firebase_bom_version = "29.0.3"
         glide_version = "4.12.0"
     }
 

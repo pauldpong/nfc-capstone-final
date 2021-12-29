@@ -5,6 +5,7 @@ import com.capstone.nfc.Constants.USERS_REF
 import com.capstone.nfc.data.Response.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -62,25 +63,31 @@ class UserRepository @Inject constructor(
     // TODO: temp
     fun addAccessor(requesterUid: String) {
         auth.currentUser?.apply {
-            usersRef.document(uid).get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val user = document.toObject<User>()
-                    user?.accessors?.put(requesterUid, true)
-                    usersRef.document(uid).update("accessors", user?.accessors)
-                }
-            }
+//            usersRef.document(uid).get().addOnSuccessListener { document ->
+//                if (document != null) {
+//                    val user = document.toObject<User>()
+//                    user?.accessors?.put(requesterUid, true)
+//                    usersRef.document(uid).update("accessors", user?.accessors)
+//                }
+//            }
         }
     }
 
+    fun addFile(fileId: String) {
+        auth.currentUser?.apply {
+            usersRef.document(uid).update("myFiles", FieldValue.arrayUnion(fileId))
+        }
+    }
+
+    /**
+     * Adds data associated with the *accessToken* to the current users *sharedWithMe* field.
+     * Requires the current user to be authorized.
+     *
+     * @param accessToken Access token from sharing user obtained by NFC reader.
+     */
     fun addShared(accessToken: String) {
         auth.currentUser?.apply {
-            usersRef.document(uid).get().addOnSuccessListener { document ->
-                if (document != null) {
-                    val user = document.toObject<User>()
-                    user?.shared?.put(accessToken, true)
-                    usersRef.document(uid).update("shared", user?.shared)
-                }
-            }
+            usersRef.document(uid).update("sharedWithMe", FieldValue.arrayUnion(accessToken))
         }
     }
 }
