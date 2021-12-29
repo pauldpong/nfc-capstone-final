@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734074178575",
+    "project_id": "capstone-d740e",
+    "storage_bucket": "capstone-d740e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734074178575:android:24d255237c05a08a1f677a",
+        "android_client_info": {
+          "package_name": "com.capstone.nfc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734074178575-i41i0d6o7kn7tfoiifc90a0qq093ithl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfMBbD6_WfMZdgoskIyZYqQLL1uNoWCC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734074178575-i41i0d6o7kn7tfoiifc90a0qq093ithl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
