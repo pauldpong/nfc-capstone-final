@@ -22,6 +22,8 @@ import com.capstone.nfc.data.Response.*
 import com.capstone.nfc.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "DashboardFragment"
+
 @AndroidEntryPoint
 class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     private val viewModel by viewModels<DashboardViewModel>()
@@ -36,13 +38,12 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
                 uri?.let {
                     viewModel.uploadPdf(uri).observe(viewLifecycleOwner) { response ->
                         if (response is Success) {
-                            dataBinding.pdfUri.text = response.data?.md5Hash
+                            dataBinding.pdfUri.text = response.data?.name
                         } else {
                             dataBinding.pdfUri.text = "error"
                         }
                     }
                 }
-                Log.e("DashboardFragment", "yay!")
             }
         }
 
@@ -55,6 +56,13 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
         setReaderButtonCallback()
         setUploadPdfButtonCallback()
         setSignOutCallback()
+
+        viewModel.getFiles().observe(viewLifecycleOwner) { response ->
+            if (response is Success) {
+                Log.e(TAG,response.data.items.toString())
+                Log.e(TAG,response.data.prefixes.toString())
+            }
+        }
     }
 
     private fun setWriterButtonCallback() {
@@ -82,7 +90,7 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
     private fun setUploadPdfButtonCallback() {
         dataBinding.uploadPdfButton.setOnClickListener {
             val intent = Intent().apply {
-                type = "application/pdf"
+                type = "*/*"
                 action = Intent.ACTION_GET_CONTENT
             }
 

@@ -1,6 +1,5 @@
 package com.capstone.nfc.data
 
-import android.util.Log
 import com.capstone.nfc.Constants.DEFAULT_ERROR_MESSAGE
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
@@ -10,7 +9,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Singleton
 
+@Singleton
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth
 ) {

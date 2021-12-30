@@ -29,6 +29,12 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun getFiles() = liveData(Dispatchers.IO) {
+        fileRepository.getFiles().collect { response ->
+            emit(response)
+        }
+    }
+
     fun signOut() = liveData(Dispatchers.IO) {
         authRepository.signOut().collect { response -> emit(response) }
     }
