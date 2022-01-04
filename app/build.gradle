@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
 
 android {

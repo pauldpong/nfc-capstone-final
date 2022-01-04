@@ -3,21 +3,16 @@ package com.capstone.nfc.ui.dashboard
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.nfc.R
 import com.capstone.nfc.base.BaseFragment
+import com.capstone.nfc.data.File
 import com.capstone.nfc.data.Response.*
 import com.capstone.nfc.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +23,9 @@ private const val TAG = "DashboardFragment"
 class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     private val viewModel by viewModels<DashboardViewModel>()
     private lateinit var pdfChooserActivity: ActivityResultLauncher<Intent>
+    private lateinit var myFilesAdapter: FileViewAdapter
+
+    private var myFiles: MutableList<File> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +44,6 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
                 }
             }
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,10 +54,27 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
         setUploadPdfButtonCallback()
         setSignOutCallback()
 
+        // Setup files list
+        dataBinding.myFilesList.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            myFilesAdapter = FileViewAdapter { file ->
+                file.path?.let {
+                    val action = DashboardFragmentDirections.actionDashboardToWriterFragment(it)
+                    findNavController().navigate(action)
+                }
+
+            }
+            adapter = myFilesAdapter
+        }
+
+        // TODO: Needs to be done in the view model to avoid multiple inserts when coming back
         viewModel.getFiles().observe(viewLifecycleOwner) { response ->
             if (response is Success) {
-                Log.e(TAG,response.data.items.toString())
-                Log.e(TAG,response.data.prefixes.toString())
+                for (file in response.data.items) {
+
+                    myFiles.add(File(file.name, file.path))
+                }
+                myFilesAdapter.submitList(myFiles)
             }
         }
     }

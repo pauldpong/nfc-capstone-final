@@ -22,5 +22,9 @@
     <fragment
         android:id="@+id/writerFragment"
         android:name="com.capstone.nfc.ui.writer.WriterFragment"
-        android:label="WriterFragment" />
+        android:label="WriterFragment" >
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+    </fragment>
 </navigation>
