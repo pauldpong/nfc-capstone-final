@@ -1,5 +1,6 @@
 package com.capstone.nfc.services
 
+import android.content.Intent
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
 import android.util.Log

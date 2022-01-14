@@ -3,9 +3,11 @@ package com.capstone.nfc.ui.dashboard
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -21,11 +23,9 @@ private const val TAG = "DashboardFragment"
 
 @AndroidEntryPoint
 class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
-    private val viewModel by viewModels<DashboardViewModel>()
+    private val model by viewModels<DashboardViewModel>()
     private lateinit var pdfChooserActivity: ActivityResultLauncher<Intent>
     private lateinit var myFilesAdapter: FileViewAdapter
-
-    private var myFiles: MutableList<File> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +33,19 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
         pdfChooserActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val uri = result.data!!.data
+
                 uri?.let {
-                    viewModel.uploadPdf(uri).observe(viewLifecycleOwner) { response ->
+                    context?.contentResolver?.query(uri, null, null, null, null)
+                }?.use { cursor ->
+                    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    cursor.moveToFirst()
+                    val fileName: String = cursor.getString(nameIndex)
+                    model.uploadPdf(uri, fileName).observe(viewLifecycleOwner) { response ->
                         if (response is Success) {
-                            dataBinding.pdfUri.text = response.data?.name
+                            dataBinding.pdfUri.text = fileName
+                            model.loadMyFiles()
+                        } else if (response is Loading) {
+                            dataBinding.pdfUri.text = "loading..."
                         } else {
                             dataBinding.pdfUri.text = "error"
                         }
@@ -49,7 +58,6 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUser()
-        setWriterButtonCallback()
         setReaderButtonCallback()
         setUploadPdfButtonCallback()
         setSignOutCallback()
@@ -67,23 +75,13 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
             adapter = myFilesAdapter
         }
 
-        // TODO: Needs to be done in the view model to avoid multiple inserts when coming back
-        viewModel.getFiles().observe(viewLifecycleOwner) { response ->
-            if (response is Success) {
-                for (file in response.data.items) {
 
-                    myFiles.add(File(file.name, file.path))
-                }
-                myFilesAdapter.submitList(myFiles)
-            }
+        model.loadMyFiles()
+        model.myFiles.observe(viewLifecycleOwner) {
+            myFilesAdapter.submitList(it)
         }
     }
 
-    private fun setWriterButtonCallback() {
-        dataBinding.contactCard.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_writerFragment)
-        }
-    }
 
     private fun setReaderButtonCallback() {
         dataBinding.readerButton.setOnClickListener {
@@ -92,7 +90,7 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
     }
 
     private fun getUser() {
-        viewModel.getUser().observe(viewLifecycleOwner) { response ->
+        model.getUser().observe(viewLifecycleOwner) { response ->
             if (response is Success) {
                 dataBinding.nameField.append(response.data.name)
                 dataBinding.emailField.append(response.data.email)
@@ -114,7 +112,7 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
 
     private fun setSignOutCallback() {
         dataBinding.signOutButton.setOnClickListener {
-            viewModel.signOut().observe(viewLifecycleOwner) {}
+            model.signOut().observe(viewLifecycleOwner) {}
         }
     }
 }

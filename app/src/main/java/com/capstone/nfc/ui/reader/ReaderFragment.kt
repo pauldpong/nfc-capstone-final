@@ -35,9 +35,16 @@ class ReaderFragment: BaseFragment<FragmentReaderBinding>(FragmentReaderBinding:
             // Send writer the requester/reader ID to get access token
             val requesterID = uid?.toByteArray()
             val accessToken = isoDep.transceive(requesterID)
+            activity?.runOnUiThread {
+                dataBinding.nameField.text = accessToken.toString()
+            }
 
             // Store access token in user's shared field
             viewModel.addShared(String(accessToken))
+        } else {
+            activity?.runOnUiThread {
+                dataBinding.nameField.text = "Brew"
+            }
         }
 
         isoDep.close()
@@ -54,8 +61,7 @@ class ReaderFragment: BaseFragment<FragmentReaderBinding>(FragmentReaderBinding:
     override fun onResume() {
         super.onResume()
 
-        nfcAdapter?.enableReaderMode(activity, this,
-            NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK, null)
+        nfcAdapter?.enableReaderMode(activity, this, NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK, null)
     }
 
     override fun onPause() {
