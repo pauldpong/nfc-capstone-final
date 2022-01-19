@@ -7,11 +7,13 @@
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/drawable/ic_notification.xml" value="0.2296875" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/drawable/ic_plus.xml" value="0.2296875" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/drawable/ic_shared.xml" value="0.2296875" />
+        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/activity_main.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/component_file_card.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_dashboard.xml" value="0.21354166666666666" />
+        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_dashboard.xml" value="0.25" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_notifications.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_reader.xml" value="0.2015625" />
-        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_writer.xml" value="0.36231884057971014" />
+        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_shared.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/fragment_writer.xml" value="0.22" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/menu/bottom_nav_menu.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/xml/apduservice.xml" value="0.21354166666666666" />
       </map>

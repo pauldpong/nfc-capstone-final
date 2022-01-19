@@ -53,6 +53,8 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
                 }
             }
         }
+
+        model.loadMyFiles()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,8 +77,6 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
             adapter = myFilesAdapter
         }
 
-
-        model.loadMyFiles()
         model.myFiles.observe(viewLifecycleOwner) {
             myFilesAdapter.submitList(it)
         }

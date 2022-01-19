@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">NFC</string>
 
+    <!-- Dashboard -->
+    <string name="dashboard_quick_share">Quick Share</string>
+    <string name="dashboard_my_files">My Files</string>
+
+    <!-- Shared -->
+    <string name="shared_title">Shared with me</string>
+
     <!-- Contact Card -->
     <string name="contact_card_name_label">Name:</string>
     <string name="contact_card_email_label">Email:</string>
     <string name="contact_card_phone_label">Phone:</string>
-
 
     <!-- Bottom Navigation Bar -->
     <string name="home_menu_label">Home</string>

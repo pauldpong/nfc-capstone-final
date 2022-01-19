@@ -1,79 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_files_list"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/contactCard"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+
         <LinearLayout
-            android:orientation="vertical"
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    style="@style/AllCaps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_quick_share"
+                    android:layout_marginBottom="15dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/my_files_list"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp">
+
+                <TextView
+                    style="@style/H1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_my_files"
+                    android:layout_marginBottom="15dp" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/contactCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/name_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contact_card_name_label"/>
+                    <TextView
+                        android:id="@+id/email_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contact_card_email_label"/>
+                    <TextView
+                        android:id="@+id/phone_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contact_card_phone_label"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Button
+                android:id="@+id/readerButton"
+                android:layout_width="wrap_content"
+                android:text="Reader"
+                android:layout_height="wrap_content" />
+
             <TextView
-                android:id="@+id/name_field"
+                android:id="@+id/pdfUri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contact_card_name_label"/>
-            <TextView
-                android:id="@+id/email_field"
+                android:text="Nothing"/>
+
+            <Button
+                android:id="@+id/uploadPdfButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_card_email_label"/>
-            <TextView
-                android:id="@+id/phone_field"
+                android:text="Upload"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/signOutButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/contact_card_phone_label"/>
+                android:text="Sign Out"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <Button
-        android:id="@+id/readerButton"
-        android:layout_width="wrap_content"
-        android:text="Reader"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/pdfUri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nothing"/>
-
-    <Button
-        android:id="@+id/uploadPdfButton"
-        android:layout_width="wrap_content"
-        android:text="Upload"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/signOutButton"
-        android:layout_width="wrap_content"
-        android:text="Sign Out"
-        android:layout_height="wrap_content" />
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:backgroundTint="@color/icon_primary"-->
-<!--        app:borderWidth="0dp"-->
-<!--        app:srcCompat="@drawable/ic_plus"-->
-<!--        app:tint="@color/white"-->
-<!--        app:layout_constraintRight_toRightOf="@id/bottom_nav"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/bottom_nav" />-->
-
+    </ScrollView>
 </LinearLayout>

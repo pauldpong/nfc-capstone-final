@@ -4,6 +4,7 @@ import android.content.Intent
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
 import android.util.Log
+import com.capstone.nfc.data.FileRepository
 import com.capstone.nfc.data.UserRepository
 import com.capstone.nfc.utilities.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,10 +26,23 @@ class NFCHCEService : HostApduService() {
     }
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var fileRepository: FileRepository
+    var filePath : String? = null
 
     override fun onDeactivated(reason: Int) {
         Log.d(TAG, "Deactivated: " + reason)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.let {
+            if (intent.hasExtra("NFCHCEService.filePath")) {
+                intent.extras?.getString("NFCHCEService.filePath")?.let {
+                    filePath = it
+                }
+            }
+        }
+
+        return START_NOT_STICKY
     }
 
     override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray {
@@ -46,13 +60,13 @@ class NFCHCEService : HostApduService() {
             // Extract requester UID
             val requesterUid = String(commandApdu)
 
-            // Return STATUS_FAILED is invalid UID
+            // Return STATUS_FAILED if invalid UID
 
             // Store uid in accessors of the shared data (file, contact info, etc.)
-            userRepository.addAccessor(requesterUid)
+            fileRepository.addAccessor(filePath!!.split('/')[2], requesterUid)
 
             // Send access token for the shared data to requester
-            if (userRepository.uid != null) userRepository.uid!!.toByteArray() else STATUS_FAILED
+            filePath?.toByteArray() ?: STATUS_FAILED
         }
     }
 }

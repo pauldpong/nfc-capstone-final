@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Icon colors -->
-    <color name="icon_primary">#FF24455B</color>
+    <color name="background_primary">#FFFFF6</color>
 
-    <color name="background_primary">#FFFFFFF0</color>
+    <!-- Icon colors -->
+    <color name="icon_primary">@color/black</color>
+
+    <color name="text_primary">@color/black</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

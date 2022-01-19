@@ -1,5 +1,6 @@
 package com.capstone.nfc.di
 
+import com.capstone.nfc.Constants.FILES_REF
 import com.capstone.nfc.Constants.USERS_REF
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -30,5 +31,11 @@ object FirebaseModule {
     @Named(USERS_REF)
     fun provideUserRef(rootRef: FirebaseFirestore): CollectionReference {
         return rootRef.collection(USERS_REF)
+    }
+
+    @Provides
+    @Named(FILES_REF)
+    fun provideFileRef(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(FILES_REF)
     }
 }

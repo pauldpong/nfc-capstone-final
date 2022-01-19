@@ -10,7 +10,10 @@ import com.capstone.nfc.base.BaseFragment
 import com.capstone.nfc.databinding.FragmentWriterBinding
 import com.capstone.nfc.services.NFCHCEService
 import android.content.Intent
+import android.graphics.BitmapFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WriterFragment: BaseFragment<FragmentWriterBinding>(FragmentWriterBinding::inflate) {
     private val viewModel by viewModels<WriterViewModel>()
     private val args: WriterFragmentArgs by navArgs()
@@ -20,10 +23,14 @@ class WriterFragment: BaseFragment<FragmentWriterBinding>(FragmentWriterBinding:
 
         dataBinding.filePathField.text = args.filePath
 
-//        val rc = Intent(context, NFCHCEService::class.java)
-//        rc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) //important for Android 10
-//        rc.putExtra("parama", args.filePath)
-//        context?.startService(rc)
+        val rc = Intent(context, NFCHCEService::class.java)
+        rc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) //important for Android 10
+        rc.putExtra("NFCHCEService.filePath", args.filePath)
+        context?.startService(rc)
+
+//        viewModel.getFile(args.filePath).observe(viewLifecycleOwner) {
+//            dataBinding.imageView.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
+//        }
     }
 
     override fun onResume() {
