@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.nfc.R
-import com.capstone.nfc.data.File
+import com.capstone.nfc.data.StorageFile
 
-class FileViewAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, FileViewAdapter.ViewHolder>(FileDiffCallback) {
-    class ViewHolder(view: View, val onClick: (File) -> Unit) : RecyclerView.ViewHolder(view) {
+class FileViewAdapter(private val onClick: (StorageFile) -> Unit, private val onLongClick: (StorageFile) -> Unit) : ListAdapter<StorageFile, FileViewAdapter.ViewHolder>(FileDiffCallback) {
+    class ViewHolder(view: View, val onClick: (StorageFile) -> Unit, val onLongClick: (StorageFile) -> Unit) : RecyclerView.ViewHolder(view) {
         private val fileName: TextView = view.findViewById(R.id.file_name_field)
-        private var currentFile: File? = null
+        private var currentFile: StorageFile? = null
 
         init {
             itemView.setOnClickListener {
@@ -21,9 +21,16 @@ class FileViewAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, F
                     onClick(it)
                 }
             }
+            itemView.setOnLongClickListener {
+                currentFile?.let {
+                    onLongClick(it)
+                }
+
+                return@setOnLongClickListener true
+            }
         }
 
-        fun bind(file: File) {
+        fun bind(file: StorageFile) {
             currentFile = file
             fileName.text = file.name
         }
@@ -32,7 +39,7 @@ class FileViewAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, F
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.component_file_card, parent, false)
 
-        return ViewHolder(view, onClick)
+        return ViewHolder(view, onClick, onLongClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -40,12 +47,12 @@ class FileViewAdapter(private val onClick: (File) -> Unit) : ListAdapter<File, F
     }
 }
 
-object FileDiffCallback : DiffUtil.ItemCallback<File>() {
-    override fun areItemsTheSame(oldItem: File, newItem: File): Boolean {
+object FileDiffCallback : DiffUtil.ItemCallback<StorageFile>() {
+    override fun areItemsTheSame(oldItem: StorageFile, newItem: StorageFile): Boolean {
         return oldItem.name == newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
+    override fun areContentsTheSame(oldItem: StorageFile, newItem: StorageFile): Boolean {
         return oldItem.name == newItem.name
     }
 }

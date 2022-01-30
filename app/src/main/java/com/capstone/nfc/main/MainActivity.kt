@@ -9,8 +9,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.R
 import com.capstone.nfc.databinding.ActivityMainBinding
+import com.capstone.nfc.ui.ModalFABBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(dataBinding.root)
 
         setupBottomNavController()
+        setupFabOnClick()
         observeAuthState()
     }
 
@@ -37,7 +38,13 @@ class MainActivity : AppCompatActivity() {
         dataBinding.bottomNav.setupWithNavController(navController)
     }
 
-    @ExperimentalCoroutinesApi
+    private fun setupFabOnClick() {
+        dataBinding.fab.setOnClickListener {
+            val modal = ModalFABBottomSheet()
+            modal.show(supportFragmentManager, null)
+        }
+    }
+
     private fun observeAuthState() {
         viewModel.getAuthState().observe(this) { isUserSignedOut ->
             if (isUserSignedOut) {

@@ -1,10 +1,12 @@
 package com.capstone.nfc.data
 
 import com.capstone.nfc.Constants
+import com.capstone.nfc.Constants.FILES_REF
 import com.capstone.nfc.Constants.USERS_REF
 import com.capstone.nfc.data.Response.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +19,8 @@ import javax.inject.*
 @Singleton
 class UserRepository @Inject constructor(
     private val auth: FirebaseAuth,
-    @Named(USERS_REF) private val usersRef: CollectionReference
+    @Named(USERS_REF) private val usersRef: CollectionReference,
+    @Named(FILES_REF) private val filesRef: CollectionReference,
 ) {
     val uid get() = auth.currentUser?.uid
 
@@ -46,6 +49,15 @@ class UserRepository @Inject constructor(
             }
         } catch (e: Exception) {
             emit(Failure(e.message ?: Constants.DEFAULT_ERROR_MESSAGE))
+        }
+    }
+
+    fun getSharedFiles() = flow {
+        auth.currentUser?.apply {
+            val user = usersRef.document(uid).get().await().toObject<User>()
+            user?.let {
+                emit(user.sharedWithMe)
+            }
         }
     }
 
@@ -87,7 +99,7 @@ class UserRepository @Inject constructor(
      */
     fun addShared(accessToken: String) {
         auth.currentUser?.apply {
-            usersRef.document(uid).update("sharedWithMe", FieldValue.arrayUnion(accessToken))
+            usersRef.document(uid).update("sharedWithMe", FieldValue.arrayUnion(filesRef.document(accessToken)))
         }
     }
 }

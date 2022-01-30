@@ -2,14 +2,20 @@ package com.capstone.nfc.data
 
 import android.net.Uri
 import android.util.Log
+import android.webkit.MimeTypeMap
 import com.capstone.nfc.Constants.FILES_REF
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storageMetadata
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -20,24 +26,36 @@ class FirebaseFileDataSource @Inject constructor(
     private val storage: FirebaseStorage,
     @Named(FILES_REF) private val filesRef: CollectionReference
 ) {
-    fun getFiles(): Flow<List<StorageReference>> = flow {
+    fun getFiles(): Flow<List<StorageFile>> = flow {
         auth.currentUser?.apply {
-            val reference = storage.reference.child(uid)
-            val result = reference.listAll().await()
-            emit(result.items)
+            val userFiles = storage.reference.child(uid).listAll().await()
+            val result = mutableListOf<StorageFile>()
+
+            for (reference in userFiles.items) {
+                result.add(StorageFile(reference.name, reference.path, reference.metadata.await().getCustomMetadata("uuid")!!))
+            }
+
+            emit(result)
         }
     }
 
-    fun uploadFile(uri: Uri, fileName: String) = flow {
+    fun uploadFile(uri: Uri, fullFileName: String) = flow {
         try {
             emit(Response.Loading)
             auth.currentUser?.apply {
-                val fileId = "$uid/$fileName"
-                val reference = storage.reference.child(fileId)
-                val snapshot = reference.putFile(uri).await()
+                val filePath = "$uid/$fullFileName"
+                val reference = storage.reference.child(filePath)
+                val uuid = UUID.randomUUID().toString()
+                val metadata = storageMetadata {
+                    setCustomMetadata("uuid", uuid)
+                }
+                val snapshot = reference.putFile(uri, metadata).await()
 
-                val newFileMetadata = FileMetadata(uid, mutableListOf())
-                filesRef.document(fileName).set(newFileMetadata).await()
+                val fileName = fullFileName.split('.')[0]
+                val type = MimeTypeMap.getFileExtensionFromUrl(fullFileName)
+
+                val newFileMetadata = FileMetadata(fileName, type, filePath, uid, mutableListOf())
+                filesRef.document(uuid).set(newFileMetadata).await()
 
                 emit(Response.Success(snapshot.metadata))
             }
@@ -52,10 +70,21 @@ class FirebaseFileDataSource @Inject constructor(
         }
     }
 
-    fun getFile(filePath: String): Flow<ByteArray> = flow {
-        auth.currentUser?.apply {
-            val bytes = storage.reference.child(filePath).getBytes(1024 * 1024).await()
-            emit(bytes)
-        }
+    @ExperimentalCoroutinesApi
+    fun getFile(filePath: String) = callbackFlow {
+        storage.reference.child(filePath).downloadUrl
+            .addOnSuccessListener {
+                offer(Response.Success(it))
+                close()
+            }
+            .addOnFailureListener {
+                offer(Response.Failure())
+                close(it)
+            }
+//                .addOnProgressListener {
+//
+//                }
+
+        awaitClose()
     }
 }

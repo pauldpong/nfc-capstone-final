@@ -12,9 +12,4 @@ import javax.inject.Inject
 class WriterViewModel @Inject constructor(
     private val fileRepository: FileRepository
 ): ViewModel() {
-    fun getFile(filePath: String) = liveData(Dispatchers.IO) {
-        fileRepository.getFile(filePath).collect { bytes ->
-            emit(bytes)
-        }
-    }
 }

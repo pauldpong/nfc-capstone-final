@@ -27,7 +27,7 @@ class NFCHCEService : HostApduService() {
 
     @Inject
     lateinit var fileRepository: FileRepository
-    var filePath : String? = null
+    var fileUUID : String? = null
 
     override fun onDeactivated(reason: Int) {
         Log.d(TAG, "Deactivated: " + reason)
@@ -35,9 +35,9 @@ class NFCHCEService : HostApduService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
-            if (intent.hasExtra("NFCHCEService.filePath")) {
-                intent.extras?.getString("NFCHCEService.filePath")?.let {
-                    filePath = it
+            if (intent.hasExtra("NFCHCEService.fileUUID")) {
+                intent.extras?.getString("NFCHCEService.fileUUID")?.let {
+                    fileUUID = it
                 }
             }
         }
@@ -63,10 +63,10 @@ class NFCHCEService : HostApduService() {
             // Return STATUS_FAILED if invalid UID
 
             // Store uid in accessors of the shared data (file, contact info, etc.)
-            fileRepository.addAccessor(filePath!!.split('/')[2], requesterUid)
+            fileRepository.addAccessor(fileUUID!!, requesterUid)
 
             // Send access token for the shared data to requester
-            filePath?.toByteArray() ?: STATUS_FAILED
+            fileUUID?.toByteArray() ?: STATUS_FAILED
         }
     }
 }

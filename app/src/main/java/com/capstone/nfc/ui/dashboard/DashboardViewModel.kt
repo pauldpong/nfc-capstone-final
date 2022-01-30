@@ -18,23 +18,28 @@ class DashboardViewModel @Inject constructor(
     private val repository: UserRepository,
     private val fileRepository: FileRepository
 ): ViewModel() {
-    private val _myFiles: MutableLiveData<List<File>> = MutableLiveData()
-    val myFiles = _myFiles
+    private val myFiles: MutableLiveData<List<StorageFile>> by lazy {
+        MutableLiveData<List<StorageFile>>().also {
+            loadMyFiles()
+        }
+    }
     fun getUser() = liveData(Dispatchers.IO) {
         repository.getUser().collect { response ->
             emit(response)
         }
     }
 
-    fun uploadPdf(uri: Uri, fileName: String) = liveData(Dispatchers.IO) {
-        fileRepository.uploadFile(uri, fileName).collect { response ->
+    fun getMyFiles(): LiveData<List<StorageFile>> = myFiles
+
+    fun uploadPdf(uri: Uri, fullFileName: String) = liveData(Dispatchers.IO) {
+        fileRepository.uploadFile(uri, fullFileName).collect { response ->
             emit(response)
         }
     }
 
     fun loadMyFiles() = viewModelScope.launch {
         fileRepository.files.collect { files ->
-            _myFiles.value = files
+            myFiles.value = files
         }
     }
 

@@ -18,6 +18,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/shared_title" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shared_files"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

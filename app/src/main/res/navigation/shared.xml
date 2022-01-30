@@ -7,5 +7,16 @@
     <fragment
         android:id="@+id/sharedFragment"
         android:name="com.capstone.nfc.ui.shared.SharedFragment"
-        android:label="SharedFragment" />
+        android:label="SharedFragment" >
+        <action
+            android:id="@+id/action_sharedFragment_to_filePreviewFragment2"
+            app:destination="@id/filePreviewFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/filePreviewFragment2"
+        android:name="com.capstone.nfc.ui.preview.FilePreviewFragment"
+        android:label="FilePreviewFragment" >
+        <argument android:name="filePath"
+            app:argType="string" />
+    </fragment>
 </navigation>

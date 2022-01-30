@@ -1,36 +1,43 @@
 package com.capstone.nfc.utilities
 
-class Utils {
-    companion object {
-        private val HEX_CHARS = "0123456789ABCDEF"
-        fun hexStringToByteArray(data: String) : ByteArray {
+object Utils {
+    private val HEX_CHARS = "0123456789ABCDEF"
 
-            val result = ByteArray(data.length / 2)
+    @JvmStatic
+    fun hexStringToByteArray(data: String) : ByteArray {
 
-            for (i in 0 until data.length step 2) {
-                val firstIndex = HEX_CHARS.indexOf(data[i]);
-                val secondIndex = HEX_CHARS.indexOf(data[i + 1]);
+        val result = ByteArray(data.length / 2)
 
-                val octet = firstIndex.shl(4).or(secondIndex)
-                result.set(i.shr(1), octet.toByte())
-            }
+        for (i in 0 until data.length step 2) {
+            val firstIndex = HEX_CHARS.indexOf(data[i]);
+            val secondIndex = HEX_CHARS.indexOf(data[i + 1]);
 
-            return result
+            val octet = firstIndex.shl(4).or(secondIndex)
+            result.set(i.shr(1), octet.toByte())
         }
 
-        private val HEX_CHARS_ARRAY = "0123456789ABCDEF".toCharArray()
-        fun toHex(byteArray: ByteArray) : String {
-            val result = StringBuffer()
+        return result
+    }
 
-            byteArray.forEach {
-                val octet = it.toInt()
-                val firstIndex = (octet and 0xF0).ushr(4)
-                val secondIndex = octet and 0x0F
-                result.append(HEX_CHARS_ARRAY[firstIndex])
-                result.append(HEX_CHARS_ARRAY[secondIndex])
-            }
+    private val HEX_CHARS_ARRAY = "0123456789ABCDEF".toCharArray()
+    @JvmStatic
+    fun toHex(byteArray: ByteArray) : String {
+        val result = StringBuffer()
 
-            return result.toString()
+        byteArray.forEach {
+            val octet = it.toInt()
+            val firstIndex = (octet and 0xF0).ushr(4)
+            val secondIndex = octet and 0x0F
+            result.append(HEX_CHARS_ARRAY[firstIndex])
+            result.append(HEX_CHARS_ARRAY[secondIndex])
         }
+
+        return result.toString()
+    }
+
+
+    @JvmStatic
+    fun getMimeType(url: String) {
+        var type: String? = null
     }
 }

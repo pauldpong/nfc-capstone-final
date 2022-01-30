@@ -11,6 +11,7 @@ import com.capstone.nfc.databinding.FragmentWriterBinding
 import com.capstone.nfc.services.NFCHCEService
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,16 +22,12 @@ class WriterFragment: BaseFragment<FragmentWriterBinding>(FragmentWriterBinding:
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBinding.filePathField.text = args.filePath
+        dataBinding.filePathField.text = args.fileUUID
 
         val rc = Intent(context, NFCHCEService::class.java)
         rc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) //important for Android 10
-        rc.putExtra("NFCHCEService.filePath", args.filePath)
+        rc.putExtra("NFCHCEService.fileUUID", args.fileUUID)
         context?.startService(rc)
-
-//        viewModel.getFile(args.filePath).observe(viewLifecycleOwner) {
-//            dataBinding.imageView.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
-//        }
     }
 
     override fun onResume() {

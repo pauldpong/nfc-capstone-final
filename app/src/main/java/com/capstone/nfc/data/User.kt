@@ -1,9 +1,10 @@
 package com.capstone.nfc.data
 
+import com.google.firebase.firestore.DocumentReference
+
 data class User(
     val name: String? = null,
     val email: String? = null,
     val phone: String? = null,
-    val myFiles: List<String> = emptyList(),
-    val sharedWithMe: List<String> = emptyList()
+    val sharedWithMe: List<DocumentReference> = emptyList()
 )
