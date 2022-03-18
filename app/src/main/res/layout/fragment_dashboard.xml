@@ -46,6 +46,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/my_files_list"
+                    android:overScrollMode="never"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent" />
 
@@ -82,18 +83,6 @@
                 android:id="@+id/readerButton"
                 android:layout_width="wrap_content"
                 android:text="Reader"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/pdfUri"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nothing..."/>
-
-            <Button
-                android:id="@+id/uploadPdfButton"
-                android:layout_width="wrap_content"
-                android:text="Upload"
                 android:layout_height="wrap_content" />
 
             <Button
