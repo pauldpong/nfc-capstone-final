@@ -7,6 +7,7 @@ import com.capstone.nfc.Constants.FILES_REF
 import com.capstone.nfc.data.Response.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +30,20 @@ class FileRepository @Inject constructor(
     fun uploadFile(uri: Uri, fullFileName: String) = dataSource.uploadFile(uri, fullFileName)
 
     fun getFile(filePath: String) = dataSource.getFile(filePath)
+
+    fun getFileMetadata(filePath: String) = flow {
+        try {
+            emit(Loading)
+            emit(Success(filesRef.document(filePath).get().await().toObject<FileMetadata>()!!))
+        } catch (e: Exception) {
+            emit(Failure(e.message ?: Constants.DEFAULT_ERROR_MESSAGE))
+        }
+
+    }
+
+    fun revokeAccess(fileUUID: String, uid: String) = flow {
+        emit(filesRef.document(fileUUID).update("accessors", FieldValue.arrayRemove(uid)).await())
+    }
 
     fun addAccessor(fileUUID: String, requesterUid: String) {
         Log.e("test", fileUUID + " "  + requesterUid)

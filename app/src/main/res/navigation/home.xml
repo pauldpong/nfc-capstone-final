@@ -15,8 +15,8 @@
             android:id="@+id/action_dashboard_to_writerFragment"
             app:destination="@id/writerFragment" />
         <action
-            android:id="@+id/action_dashboard_to_filePreviewFragment"
-            app:destination="@id/filePreviewFragment" />
+            android:id="@+id/action_dashboard_to_fileManagementFragment"
+            app:destination="@id/fileManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/readerFragment"
@@ -34,6 +34,17 @@
         android:id="@+id/filePreviewFragment"
         android:name="com.capstone.nfc.ui.preview.FilePreviewFragment"
         android:label="FilePreviewFragment" >
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileManagementFragment"
+        android:name="com.capstone.nfc.ui.file_management.FileManagementFragment"
+        android:label="FileManagementFragment" >
+        <action
+            android:id="@+id/action_fileManagementFragment_to_filePreviewFragment"
+            app:destination="@id/filePreviewFragment" />
         <argument
             android:name="filePath"
             app:argType="string" />

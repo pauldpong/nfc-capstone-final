@@ -69,8 +69,8 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
             layoutManager = LinearLayoutManager(activity?.applicationContext)
 
             val onClick = { file: StorageFile ->
-                file.path.let {
-                    val action = DashboardFragmentDirections.actionDashboardToFilePreviewFragment(it)
+                file.uuid.let {
+                    val action = DashboardFragmentDirections.actionDashboardToFileManagementFragment(it)
                     findNavController().navigate(action)
                 }
             }

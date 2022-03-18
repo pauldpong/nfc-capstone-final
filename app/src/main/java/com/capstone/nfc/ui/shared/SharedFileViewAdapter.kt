@@ -45,6 +45,6 @@ object FileDiffCallback : DiffUtil.ItemCallback<FileMetadata>() {
     }
 
     override fun areContentsTheSame(oldItem: FileMetadata, newItem: FileMetadata): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.name == newItem.name && oldItem.accessors == newItem.accessors
     }
 }

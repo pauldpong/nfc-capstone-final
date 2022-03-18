@@ -7,6 +7,7 @@ import com.capstone.nfc.Constants.FILES_REF
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storageMetadata
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +33,9 @@ class FirebaseFileDataSource @Inject constructor(
             val result = mutableListOf<StorageFile>()
 
             for (reference in userFiles.items) {
-                result.add(StorageFile(reference.name, reference.path, reference.metadata.await().getCustomMetadata("uuid")!!))
+                val metadata: StorageMetadata = reference.metadata.await()
+                val downloadUrl = reference.downloadUrl.await()
+                result.add(StorageFile(reference.name, metadata.contentType!!, reference.path, downloadUrl, metadata.getCustomMetadata("uuid")!!))
             }
 
             emit(result)
@@ -61,12 +64,6 @@ class FirebaseFileDataSource @Inject constructor(
             }
         } catch (e: Exception) {
             emit(Response.Failure())
-        }
-    }
-
-    fun getFileType(filePath: String): Flow<String> = flow {
-        auth.currentUser?.apply {
-            storage.reference.child(filePath).metadata.await().contentType?.let { emit(it) }
         }
     }
 

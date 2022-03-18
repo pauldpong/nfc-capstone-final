@@ -1,5 +1,6 @@
 package com.capstone.nfc.data
 
+import android.util.Log
 import com.capstone.nfc.Constants
 import com.capstone.nfc.Constants.FILES_REF
 import com.capstone.nfc.Constants.USERS_REF
@@ -52,11 +53,27 @@ class UserRepository @Inject constructor(
         }
     }
 
-    fun getSharedFiles() = flow {
+    fun getSharedFiles() = callbackFlow {
         auth.currentUser?.apply {
             val user = usersRef.document(uid).get().await().toObject<User>()
             user?.let {
-                emit(user.sharedWithMe)
+                val sharedFiles = mutableMapOf<String, FileMetadata>()
+                for (file in user.sharedWithMe) {
+                    val fileMetadata : FileMetadata = file.get().await().toObject()!!
+                    sharedFiles[fileMetadata.path] = fileMetadata
+
+                    val subscription = file.addSnapshotListener { value, error ->
+                        value?.let {
+                            if (it.exists()) {
+                                sharedFiles[fileMetadata.path] = it.toObject()!!
+                                offer(sharedFiles)
+                            }
+                        }
+                    }
+
+                    awaitClose { subscription.remove() }
+                }
+                offer(sharedFiles)
             }
         }
     }

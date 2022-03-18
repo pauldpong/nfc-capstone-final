@@ -43,7 +43,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
     fun signOut() = liveData(Dispatchers.IO) {
         authRepository.signOut().collect { response -> emit(response) }
     }
