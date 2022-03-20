@@ -22,4 +22,6 @@
     <string name="nfc_aid_group_desc">NFC AID Group</string>
     <string name="nfc_aid_service_desc">NFC HCE Service</string>
     <string name="nfc_aid">F0162534435261</string>
+
+    <string name="shared_with">Shared with</string>
 </resources>

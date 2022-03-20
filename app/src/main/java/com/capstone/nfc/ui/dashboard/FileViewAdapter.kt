@@ -65,7 +65,7 @@ class FileViewAdapter(private val onClick: (StorageFile) -> Unit, private val on
             } else {
                 // .placeholder(R.drawable.user_placeholder)
                 // .error(R.drawable.user_placeholder_error)
-                Picasso.get().load(file.downloadUrl.toString()).fit().centerCrop().into(filePreview);
+                Picasso.get().load(file.downloadUrl).fit().centerCrop().into(filePreview)
             }
         }
 

@@ -34,7 +34,7 @@ class FirebaseFileDataSource @Inject constructor(
 
             for (reference in userFiles.items) {
                 val metadata: StorageMetadata = reference.metadata.await()
-                val downloadUrl = reference.downloadUrl.await()
+                val downloadUrl = reference.downloadUrl.await().toString()
                 result.add(StorageFile(reference.name, metadata.contentType!!, reference.path, downloadUrl, metadata.getCustomMetadata("uuid")!!))
             }
 

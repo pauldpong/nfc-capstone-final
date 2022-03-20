@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.nfc.base.BaseFragment
 import com.capstone.nfc.data.Response
 import com.capstone.nfc.databinding.FragmentFileManagementBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +20,12 @@ class FileManagementFragment: BaseFragment<FragmentFileManagementBinding>(Fragme
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFileMetadata(args.filePath).observe(viewLifecycleOwner) {
+
+        dataBinding.fileNameField.text = args.file.name
+        Picasso.get().load(args.file.downloadUrl).fit().centerCrop().into(dataBinding.filePreview)
+
+        viewModel.loadFileMetadata(args.file.uuid)
+        viewModel.getFileMetadata().observe(viewLifecycleOwner) {
             when (it) {
                 is Response.Success -> {
                     accessorsAdapter.submitList(it.data.accessors)
@@ -31,10 +37,10 @@ class FileManagementFragment: BaseFragment<FragmentFileManagementBinding>(Fragme
             layoutManager = LinearLayoutManager(activity?.applicationContext)
 
             val onClick: (String) -> Unit = { uid: String ->
-                viewModel.revokeAccess(args.filePath, uid).observe(viewLifecycleOwner) {
+                viewModel.revokeAccess(args.file.uuid, uid).observe(viewLifecycleOwner) {
                     when (it) {
                         is Response.Success -> {
-                            //TODO
+                            viewModel.loadFileMetadata(args.file.uuid)
                         }
                     }
                 }

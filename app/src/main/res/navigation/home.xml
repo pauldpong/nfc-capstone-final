@@ -46,7 +46,7 @@
             android:id="@+id/action_fileManagementFragment_to_filePreviewFragment"
             app:destination="@id/filePreviewFragment" />
         <argument
-            android:name="filePath"
-            app:argType="string" />
+            android:name="file"
+            app:argType="com.capstone.nfc.data.StorageFile" />
     </fragment>
 </navigation>

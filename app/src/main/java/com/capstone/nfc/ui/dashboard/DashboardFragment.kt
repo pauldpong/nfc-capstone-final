@@ -26,7 +26,6 @@ import java.io.File
 @AndroidEntryPoint
 class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     private val model by viewModels<DashboardViewModel>()
-    private lateinit var fileChooserActivity: ActivityResultLauncher<Intent>
     private lateinit var myFilesAdapter: FileViewAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,10 +39,8 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
             layoutManager = LinearLayoutManager(activity?.applicationContext)
 
             val onClick = { file: StorageFile ->
-                file.uuid.let {
-                    val action = DashboardFragmentDirections.actionDashboardToFileManagementFragment(it)
-                    findNavController().navigate(action)
-                }
+                val action = DashboardFragmentDirections.actionDashboardToFileManagementFragment(file)
+                findNavController().navigate(action)
             }
 
             val onLongClick = { file: StorageFile ->
