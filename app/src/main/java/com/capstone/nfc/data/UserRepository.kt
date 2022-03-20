@@ -62,6 +62,7 @@ class UserRepository @Inject constructor(
                     val fileMetadata : FileMetadata = file.get().await().toObject()!!
                     sharedFiles[fileMetadata.path] = fileMetadata
 
+                    // wrong
                     val subscription = file.addSnapshotListener { value, error ->
                         value?.let {
                             if (it.exists()) {

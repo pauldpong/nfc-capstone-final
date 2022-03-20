@@ -35,16 +35,16 @@ class ReaderFragment: BaseFragment<FragmentReaderBinding>(FragmentReaderBinding:
             // Send writer the requester/reader ID to get access token
             val requesterID = uid?.toByteArray()
             val accessToken = isoDep.transceive(requesterID)
-            activity?.runOnUiThread {
-                dataBinding.nameField.text = accessToken.toString()
-            }
+//            activity?.runOnUiThread {
+//                dataBinding.nameField.text = accessToken.toString()
+//            }
 
             // Store access token in user's shared field
             viewModel.addShared(String(accessToken))
         } else {
-            activity?.runOnUiThread {
-                dataBinding.nameField.text = "Brew"
-            }
+//            activity?.runOnUiThread {
+//                dataBinding.nameField.text = "Brew"
+//            }
         }
 
         isoDep.close()

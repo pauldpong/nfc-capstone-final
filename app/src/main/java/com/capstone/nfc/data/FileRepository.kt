@@ -46,7 +46,6 @@ class FileRepository @Inject constructor(
     }
 
     fun addAccessor(fileUUID: String, requesterUid: String) {
-        Log.e("test", fileUUID + " "  + requesterUid)
         filesRef.document(fileUUID).get().addOnSuccessListener { document ->
             if (document != null) {
                 val metadata = document.toObject<FileMetadata>()

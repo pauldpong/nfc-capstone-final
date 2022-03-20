@@ -42,7 +42,7 @@ class NFCHCEService : HostApduService() {
             }
         }
 
-        return START_NOT_STICKY
+        return START_STICKY
     }
 
     override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray {

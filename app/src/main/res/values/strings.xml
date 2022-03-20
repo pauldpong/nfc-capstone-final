@@ -24,4 +24,6 @@
     <string name="nfc_aid">F0162534435261</string>
 
     <string name="shared_with">Shared with</string>
+
+    <string name="tap_prompt">Hold to sharer</string>
 </resources>
