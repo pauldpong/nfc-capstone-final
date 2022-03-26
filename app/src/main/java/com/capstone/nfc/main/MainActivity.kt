@@ -12,7 +12,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.R
@@ -81,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         dataBinding.bottomNav.setupWithNavController(navController)
+        Navigation.setViewNavController(dataBinding.readFab, navController)
     }
 
     private fun setupFabOnClick() {
@@ -100,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         dataBinding.readFab.setOnClickListener {
-            Log.e("MainActivity", "Read")
+            it.findNavController().navigate(R.id.ReaderFragment)
 
             toggleFab()
         }

@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.capstone.nfc.R
 import com.capstone.nfc.base.BaseFragment
 import com.capstone.nfc.data.FileMetadata
@@ -31,7 +32,6 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUser()
-        setReaderButtonCallback()
         setSignOutCallback()
 
         // Setup files list
@@ -54,14 +54,10 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
         }
 
         model.getMyFiles().observe(viewLifecycleOwner) {
-            myFilesAdapter.submitList(it)
-        }
-    }
-
-
-    private fun setReaderButtonCallback() {
-        dataBinding.readerButton.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_readerFragment)
+            if (it.isNotEmpty()) {
+                myFilesAdapter.submitList(it)
+                dataBinding.emptyListPlaceholder.visibility = View.INVISIBLE
+            }
         }
     }
 

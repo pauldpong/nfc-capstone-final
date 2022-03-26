@@ -6,6 +6,9 @@
 
     <include app:graph="@navigation/home"/>
     <include app:graph="@navigation/shared"/>
-    <include app:graph="@navigation/notifications"/>
+    <fragment
+        android:id="@+id/ReaderFragment"
+        android:name="com.capstone.nfc.ui.reader.ReaderFragment"
+        android:label="ReaderFragment" />
 
 </navigation>
