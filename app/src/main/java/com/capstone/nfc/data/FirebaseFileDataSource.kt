@@ -67,6 +67,7 @@ class FirebaseFileDataSource @Inject constructor(
                 emit(Response.Success(snapshot.metadata))
             }
         } catch (e: Exception) {
+            Log.e("datasource", e.message.toString())
             emit(Response.Failure())
         }
     }

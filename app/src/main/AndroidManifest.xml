@@ -21,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NFC">
         <activity
+            android:theme="@style/Theme.Reader"
             android:name=".ui.reader.ReaderActivity"
             android:exported="false" />
         <activity

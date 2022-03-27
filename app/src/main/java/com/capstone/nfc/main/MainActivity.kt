@@ -23,6 +23,9 @@ import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.R
 import com.capstone.nfc.data.Response
 import com.capstone.nfc.databinding.ActivityMainBinding
+import com.capstone.nfc.ui.dashboard.DashboardFragment
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -64,14 +67,14 @@ class MainActivity : AppCompatActivity() {
 
                     viewModel.uploadPdf(uri, fullFileName).observe(this) { response ->
                         if (response is Response.Success) {
-                            Log.e("A", "Success")
-                            //viewModel.loadMyFiles()
+                            Snackbar.make(dataBinding.fab, "Success!", BaseTransientBottomBar.LENGTH_SHORT).show()
+                            val navHostFragment: NavHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
+                            val dashboardFragment: DashboardFragment = navHostFragment.childFragmentManager.fragments[0] as DashboardFragment
+                            dashboardFragment.refresh()
                         } else if (response is Response.Loading) {
-                            Log.e("A", "loading")
-//                            dataBinding.pdfUri.text = "loading..."
+                            Snackbar.make(dataBinding.fab, "Uploading...", BaseTransientBottomBar.LENGTH_INDEFINITE).show()
                         } else {
-                            Log.e("A", "error")
-//                            dataBinding.pdfUri.text = "error"
+                            Snackbar.make(dataBinding.fab, "An error has occurred, try again.", BaseTransientBottomBar.LENGTH_SHORT).show()
                         }
                     }
                 }

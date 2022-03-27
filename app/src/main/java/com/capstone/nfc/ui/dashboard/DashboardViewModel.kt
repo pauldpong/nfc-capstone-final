@@ -21,7 +21,6 @@ class DashboardViewModel @Inject constructor(
 ): ViewModel() {
     private val myFiles: MutableLiveData<List<StorageFile>> by lazy {
         MutableLiveData<List<StorageFile>>().also {
-            Log.e("dash", "reloading")
             loadMyFiles()
         }
     }

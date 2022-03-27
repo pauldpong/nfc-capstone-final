@@ -57,7 +57,10 @@ class SharedFragment: BaseFragment<FragmentSharedBinding>(FragmentSharedBinding:
                 }
                 is Response.Success -> {
                     val sharedFiles : List<FileMetadata> = it.data
-                    myFilesAdapter.submitList(sharedFiles)
+                    if (sharedFiles.isNotEmpty()) {
+                        myFilesAdapter.submitList(sharedFiles)
+                        dataBinding.emptyListPlaceholder.visibility = View.GONE
+                    }
                 }
             }
         }

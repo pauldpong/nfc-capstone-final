@@ -4,6 +4,7 @@
     android:background="@color/black"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,6 +21,9 @@
         app:lottie_url="https://assets10.lottiefiles.com/packages/lf20_wi7HGR.json" />
 
     <TextView
+        style="@style/H2"
+        android:id="@+id/text_prompt"
+        android:textAlignment="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tap_prompt"

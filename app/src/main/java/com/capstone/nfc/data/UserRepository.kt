@@ -54,35 +54,10 @@ class UserRepository @Inject constructor(
         }
     }
 
-//    fun getSharedFiles() = callbackFlow {
-//        auth.currentUser?.apply {
-//            val user = usersRef.document(uid).get().await().toObject<User>()
-//            user?.let {
-//                val sharedFiles = mutableMapOf<String, FileMetadata>()
-//                for (file in user.sharedWithMe) {
-//                    val fileMetadata : FileMetadata = file.get().await().toObject()!!
-//                    sharedFiles[fileMetadata.path] = fileMetadata
-//
-//                    // wrong
-//                    val subscription = file.addSnapshotListener { value, error ->
-//                        value?.let {
-//                            if (it.exists()) {
-//                                sharedFiles[fileMetadata.path] = it.toObject()!!
-//                                offer(sharedFiles)
-//                            }
-//                        }
-//                    }
-//
-//                    awaitClose { subscription.remove() }
-//                }
-//                offer(sharedFiles)
-//            }
-//        }
-//    }
 
     fun getSharedFiles() = callbackFlow {
         auth.currentUser?.apply {
-            val userSubscription = usersRef.document(uid).addSnapshotListener { value, error ->
+            val userSubscription = usersRef.document(uid).addSnapshotListener { value, _ ->
                 val flow = flow {
                     emit(Loading)
                     val user = value?.toObject<User>()
@@ -111,25 +86,6 @@ class UserRepository @Inject constructor(
             }
 
             awaitClose { subscription.remove() }
-        }
-    }
-
-    // TODO: temp
-    fun addAccessor(requesterUid: String) {
-        auth.currentUser?.apply {
-//            usersRef.document(uid).get().addOnSuccessListener { document ->
-//                if (document != null) {
-//                    val user = document.toObject<User>()
-//                    user?.accessors?.put(requesterUid, true)
-//                    usersRef.document(uid).update("accessors", user?.accessors)
-//                }
-//            }
-        }
-    }
-
-    fun addFile(fileId: String) {
-        auth.currentUser?.apply {
-            usersRef.document(uid).update("myFiles", FieldValue.arrayUnion(fileId))
         }
     }
 
