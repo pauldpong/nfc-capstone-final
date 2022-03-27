@@ -56,7 +56,7 @@ class SharedFragment: BaseFragment<FragmentSharedBinding>(FragmentSharedBinding:
 
                 }
                 is Response.Success -> {
-                    val sharedFiles : List<FileMetadata> = it.data.values.toList()
+                    val sharedFiles : List<FileMetadata> = it.data
                     myFilesAdapter.submitList(sharedFiles)
                 }
             }

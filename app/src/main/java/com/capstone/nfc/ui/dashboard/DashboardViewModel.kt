@@ -1,6 +1,7 @@
 package com.capstone.nfc.ui.dashboard
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.*
 import com.capstone.nfc.data.*
 import com.google.firebase.storage.ListResult
@@ -20,6 +21,7 @@ class DashboardViewModel @Inject constructor(
 ): ViewModel() {
     private val myFiles: MutableLiveData<List<StorageFile>> by lazy {
         MutableLiveData<List<StorageFile>>().also {
+            Log.e("dash", "reloading")
             loadMyFiles()
         }
     }

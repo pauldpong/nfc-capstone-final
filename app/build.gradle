@@ -6,7 +6,7 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 
 android {

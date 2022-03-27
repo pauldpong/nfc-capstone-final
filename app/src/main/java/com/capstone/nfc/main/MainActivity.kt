@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim) }
 
     private var fabExpanded = false
+
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavController() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         dataBinding.bottomNav.setupWithNavController(navController)
         Navigation.setViewNavController(dataBinding.readFab, navController)
@@ -105,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         dataBinding.readFab.setOnClickListener {
-            it.findNavController().navigate(R.id.ReaderFragment)
+            it.findNavController().navigate(R.id.readerActivity)
 
             toggleFab()
         }

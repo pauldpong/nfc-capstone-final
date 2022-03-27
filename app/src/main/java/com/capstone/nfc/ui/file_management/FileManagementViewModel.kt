@@ -34,12 +34,10 @@ class FileManagementViewModel @Inject constructor(
         emit(Response.Loading)
 
         try {
-
             fileRepository.revokeAccess(fileUUID, uid).collect {
                 emit(Response.Success(it))
             }
         } catch (e: Exception) {
-
             emit(Response.Failure())
         }
     }

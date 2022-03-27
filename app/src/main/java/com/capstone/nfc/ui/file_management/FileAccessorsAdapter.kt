@@ -3,6 +3,7 @@ package com.capstone.nfc.ui.file_management
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.ListAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -14,10 +15,11 @@ import com.capstone.nfc.ui.shared.SharedFileViewAdapter
 class FileAccessorsAdapter(private val onClick: (String) -> Unit) : ListAdapter<String, FileAccessorsAdapter.ViewHolder>(AccessorDiffCallback) {
     class ViewHolder(view: View, val onClick: (String) -> Unit) : RecyclerView.ViewHolder(view) {
         private val accessorId: TextView = view.findViewById(R.id.accessor_id)
+        private val removeButton: ImageButton = view.findViewById(R.id.remove_accessor_button)
         private var uid: String? = null
 
         init {
-            itemView.setOnClickListener {
+            removeButton.setOnClickListener {
                 uid?.let { onClick(it) }
             }
         }

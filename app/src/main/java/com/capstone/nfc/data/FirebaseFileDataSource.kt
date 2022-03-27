@@ -55,9 +55,13 @@ class FirebaseFileDataSource @Inject constructor(
                 val snapshot = reference.putFile(uri, metadata).await()
 
                 val fileName = fullFileName.split('.')[0]
-                val type = MimeTypeMap.getFileExtensionFromUrl(fullFileName)
+                var type: String? = null
+                val extension = MimeTypeMap.getFileExtensionFromUrl(fullFileName)
+                if (extension != null) {
+                    type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                }
 
-                val newFileMetadata = FileMetadata(fileName, type, filePath, uid, mutableListOf())
+                val newFileMetadata = FileMetadata(fileName, type ?: "", filePath, uid, mutableListOf())
                 filesRef.document(uuid).set(newFileMetadata).await()
 
                 emit(Response.Success(snapshot.metadata))

@@ -15,6 +15,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.*
 
 @Singleton
@@ -53,29 +54,52 @@ class UserRepository @Inject constructor(
         }
     }
 
+//    fun getSharedFiles() = callbackFlow {
+//        auth.currentUser?.apply {
+//            val user = usersRef.document(uid).get().await().toObject<User>()
+//            user?.let {
+//                val sharedFiles = mutableMapOf<String, FileMetadata>()
+//                for (file in user.sharedWithMe) {
+//                    val fileMetadata : FileMetadata = file.get().await().toObject()!!
+//                    sharedFiles[fileMetadata.path] = fileMetadata
+//
+//                    // wrong
+//                    val subscription = file.addSnapshotListener { value, error ->
+//                        value?.let {
+//                            if (it.exists()) {
+//                                sharedFiles[fileMetadata.path] = it.toObject()!!
+//                                offer(sharedFiles)
+//                            }
+//                        }
+//                    }
+//
+//                    awaitClose { subscription.remove() }
+//                }
+//                offer(sharedFiles)
+//            }
+//        }
+//    }
+
     fun getSharedFiles() = callbackFlow {
         auth.currentUser?.apply {
-            val user = usersRef.document(uid).get().await().toObject<User>()
-            user?.let {
-                val sharedFiles = mutableMapOf<String, FileMetadata>()
-                for (file in user.sharedWithMe) {
-                    val fileMetadata : FileMetadata = file.get().await().toObject()!!
-                    sharedFiles[fileMetadata.path] = fileMetadata
-
-                    // wrong
-                    val subscription = file.addSnapshotListener { value, error ->
-                        value?.let {
-                            if (it.exists()) {
-                                sharedFiles[fileMetadata.path] = it.toObject()!!
-                                offer(sharedFiles)
-                            }
+            val userSubscription = usersRef.document(uid).addSnapshotListener { value, error ->
+                val flow = flow {
+                    emit(Loading)
+                    val user = value?.toObject<User>()
+                    user?.sharedWithMe?.let {
+                        val sharedFiles = mutableListOf<FileMetadata>()
+                        for (file in it) {
+                            val fileMetadata : FileMetadata = file.get().await().toObject()!!
+                            sharedFiles.add(fileMetadata)
                         }
+                        emit(Success(sharedFiles))
                     }
-
-                    awaitClose { subscription.remove() }
                 }
-                offer(sharedFiles)
+
+                offer(flow)
             }
+
+            awaitClose { userSubscription.remove() }
         }
     }
 

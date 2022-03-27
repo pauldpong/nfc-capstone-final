@@ -20,14 +20,10 @@ class SharedViewModel @Inject constructor(
     private val userRepository: UserRepository
 ): ViewModel() {
     val sharedFiles = liveData {
-        emit(Response.Loading)
-
-        try {
-            userRepository.getSharedFiles().collect {
-                emit(Response.Success(it))
+        userRepository.getSharedFiles().collect {
+            it.collect { response ->
+                emit(response)
             }
-        } catch (e: Exception) {
-            emit(Response.Failure())
         }
     }
 }

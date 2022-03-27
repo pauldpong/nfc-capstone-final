@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.capstone.nfc.Constants
 import com.capstone.nfc.Constants.FILES_REF
+import com.capstone.nfc.Constants.USERS_REF
 import com.capstone.nfc.data.Response.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -22,8 +23,8 @@ import javax.inject.Singleton
 class FileRepository @Inject constructor(
     private val auth: FirebaseAuth,
     private val dataSource: FirebaseFileDataSource,
-    @Named(FILES_REF) private val filesRef: CollectionReference
-
+    @Named(FILES_REF) private val filesRef: CollectionReference,
+    @Named(USERS_REF) private val usersRef: CollectionReference
 ) {
     val files: Flow<List<StorageFile>> = dataSource.getFiles()
 
@@ -42,6 +43,7 @@ class FileRepository @Inject constructor(
     }
 
     fun revokeAccess(fileUUID: String, uid: String) = flow {
+        usersRef.document(uid).update("sharedWithMe", FieldValue.arrayRemove(filesRef.document(fileUUID).path)).await()
         emit(filesRef.document(fileUUID).update("accessors", FieldValue.arrayRemove(uid)).await())
     }
 
@@ -50,8 +52,7 @@ class FileRepository @Inject constructor(
             if (document != null) {
                 val metadata = document.toObject<FileMetadata>()
                 metadata?.let {
-                    it.accessors.add(requesterUid)
-                    filesRef.document(fileUUID).update("accessors", metadata.accessors)
+                    filesRef.document(fileUUID).update("accessors", FieldValue.arrayUnion(requesterUid))
                 }
             }
         }

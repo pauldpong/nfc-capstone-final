@@ -24,19 +24,9 @@ class WriterFragment: BaseFragment<FragmentWriterBinding>(FragmentWriterBinding:
 
         dataBinding.filePathField.text = args.fileUUID
 
-        val rc = Intent(context, NFCHCEService::class.java)
+        val rc = Intent(activity, NFCHCEService::class.java)
         rc.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) //important for Android 10
         rc.putExtra("NFCHCEService.fileUUID", args.fileUUID)
         context?.startService(rc)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        context?.packageManager?.setComponentEnabledSetting(ComponentName(requireContext(), NFCHCEService::class.java), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        context?.packageManager?.setComponentEnabledSetting(ComponentName(requireContext(), NFCHCEService::class.java), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
     }
 }

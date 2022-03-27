@@ -29,6 +29,11 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
     private val model by viewModels<DashboardViewModel>()
     private lateinit var myFilesAdapter: FileViewAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e("test", "onCreate")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getUser()
@@ -56,7 +61,7 @@ class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboar
         model.getMyFiles().observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 myFilesAdapter.submitList(it)
-                dataBinding.emptyListPlaceholder.visibility = View.INVISIBLE
+                dataBinding.emptyListPlaceholder.visibility = View.GONE
             }
         }
     }

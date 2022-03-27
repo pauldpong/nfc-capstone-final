@@ -30,7 +30,7 @@ class NFCHCEService : HostApduService() {
     var fileUUID : String? = null
 
     override fun onDeactivated(reason: Int) {
-        Log.d(TAG, "Deactivated: " + reason)
+        Log.d(TAG, "Deactivated: $reason")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -42,7 +42,7 @@ class NFCHCEService : HostApduService() {
             }
         }
 
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray {
@@ -60,10 +60,10 @@ class NFCHCEService : HostApduService() {
             // Extract requester UID
             val requesterUid = String(commandApdu)
 
-            // Return STATUS_FAILED if invalid UID
-
             // Store uid in accessors of the shared data (file, contact info, etc.)
-            fileRepository.addAccessor(fileUUID!!, requesterUid)
+            fileUUID?.let {
+                fileRepository.addAccessor(it, requesterUid)
+            }
 
             // Send access token for the shared data to requester
             fileUUID?.toByteArray() ?: STATUS_FAILED
