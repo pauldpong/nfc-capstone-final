@@ -3,6 +3,8 @@ package com.capstone.nfc.services
 import android.content.Intent
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
+import android.os.Message
+import android.os.Messenger
 import android.util.Log
 import com.capstone.nfc.data.FileRepository
 import com.capstone.nfc.data.UserRepository
@@ -28,6 +30,7 @@ class NFCHCEService : HostApduService() {
     @Inject
     lateinit var fileRepository: FileRepository
     var fileUUID : String? = null
+    var messager: Messenger? = null
 
     override fun onDeactivated(reason: Int) {
         Log.d(TAG, "Deactivated: $reason")
@@ -38,6 +41,11 @@ class NFCHCEService : HostApduService() {
             if (intent.hasExtra("NFCHCEService.fileUUID")) {
                 intent.extras?.getString("NFCHCEService.fileUUID")?.let {
                     fileUUID = it
+                }
+            }
+            if (intent.hasExtra("NFCHCEService.handler")) {
+                intent.extras?.get("NFCHCEService.handler")?.let {
+                    messager = it as Messenger
                 }
             }
         }
@@ -60,13 +68,17 @@ class NFCHCEService : HostApduService() {
             // Extract requester UID
             val requesterUid = String(commandApdu)
 
-            // Store uid in accessors of the shared data (file, contact info, etc.)
-            fileUUID?.let {
-                fileRepository.addAccessor(it, requesterUid)
+
+            var accessToken = STATUS_FAILED
+
+            if (fileUUID != null) {
+                // Store uid in accessors of the shared data (file, contact info, etc.)
+                fileRepository.addAccessor(fileUUID!!, requesterUid)
+                accessToken = fileUUID!!.toByteArray()
             }
 
             // Send access token for the shared data to requester
-            fileUUID?.toByteArray() ?: STATUS_FAILED
+            return accessToken
         }
     }
 }

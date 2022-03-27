@@ -21,9 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NFC">
         <activity
-            android:theme="@style/Theme.Reader"
+            android:name=".ui.writer.WriterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Writer" />
+        <activity
             android:name=".ui.reader.ReaderActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Reader" />
         <activity
             android:name=".splash.SplashActivity"
             android:exported="true">

@@ -9,19 +9,11 @@
         android:name="com.capstone.nfc.ui.dashboard.DashboardFragment"
         android:label="DashboardFragment" >
         <action
-            android:id="@+id/action_dashboard_to_writerFragment"
-            app:destination="@id/writerFragment" />
-        <action
             android:id="@+id/action_dashboard_to_fileManagementFragment"
             app:destination="@id/fileManagementFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/writerFragment"
-        android:name="com.capstone.nfc.ui.writer.WriterFragment"
-        android:label="WriterFragment" >
-        <argument
-            android:name="fileUUID"
-            app:argType="string" />
+        <action
+            android:id="@+id/action_dashboard_to_writerActivity"
+            app:destination="@id/writerActivity" />
     </fragment>
     <fragment
         android:id="@+id/filePreviewFragment"
@@ -42,4 +34,12 @@
             android:name="file"
             app:argType="com.capstone.nfc.data.StorageFile" />
     </fragment>
+    <activity
+        android:id="@+id/writerActivity"
+        android:name="com.capstone.nfc.ui.writer.WriterActivity"
+        android:label="WriterActivity" >
+        <argument
+            android:name="file"
+            app:argType="com.capstone.nfc.data.StorageFile" />
+    </activity>
 </navigation>
