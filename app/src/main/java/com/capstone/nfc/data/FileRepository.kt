@@ -8,12 +8,14 @@ import com.capstone.nfc.Constants.USERS_REF
 import com.capstone.nfc.data.Response.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
+import org.w3c.dom.Document
 import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
@@ -43,7 +45,7 @@ class FileRepository @Inject constructor(
     }
 
     fun revokeAccess(fileUUID: String, uid: String) = flow {
-        usersRef.document(uid).update("sharedWithMe", FieldValue.arrayRemove(filesRef.document(fileUUID).path)).await()
+        emit(usersRef.document(uid).update("sharedWithMe", FieldValue.arrayRemove(filesRef.document(fileUUID))).await())
         emit(filesRef.document(fileUUID).update("accessors", FieldValue.arrayRemove(uid)).await())
     }
 

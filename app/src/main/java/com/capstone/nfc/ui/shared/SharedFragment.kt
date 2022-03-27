@@ -60,6 +60,9 @@ class SharedFragment: BaseFragment<FragmentSharedBinding>(FragmentSharedBinding:
                     if (sharedFiles.isNotEmpty()) {
                         myFilesAdapter.submitList(sharedFiles)
                         dataBinding.emptyListPlaceholder.visibility = View.GONE
+                    } else {
+                        myFilesAdapter.submitList(sharedFiles)
+                        dataBinding.emptyListPlaceholder.visibility = View.VISIBLE
                     }
                 }
             }
