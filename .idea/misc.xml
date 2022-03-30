@@ -29,6 +29,10 @@
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/layout/modal_bottom_sheet.xml" value="0.19427083333333334" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/menu/bottom_nav_menu.xml" value="0.21354166666666666" />
         <entry key="..\:/Users/pauld/Documents/git/capstone/app/src/main/res/xml/apduservice.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/activity_auth.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1359375" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.11115861479264642" />
+        <entry key="app/src/main/res/layout/sign_in_fragment.xml" value="0.11115861479264642" />
       </map>
     </option>
   </component>

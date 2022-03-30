@@ -30,4 +30,6 @@
     <string name="tap_prompt">Hold to sharer</string>
 
     <string name="share_prompt">Tap to share\n%1$s</string>
+    <string name="sign_in_anon">Sign in Anon</string>
+    <string name="sign_in">Sign In</string>
 </resources>
