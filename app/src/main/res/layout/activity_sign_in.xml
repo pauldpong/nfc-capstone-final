@@ -18,14 +18,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:background= “@color/black” />
+        android:background= "@color/black" />
 
     <Button
         android:id="@+id/anonSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Anon Sign Up"
-        android:background= “@color/black” />
+        android:background= "@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
