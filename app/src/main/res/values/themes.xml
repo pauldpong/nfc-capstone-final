@@ -19,7 +19,17 @@
     <style name="Theme.Reader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
     <style name="Theme.Writer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="Theme.NFC.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.NFC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.NFC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

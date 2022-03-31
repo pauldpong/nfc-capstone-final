@@ -29,9 +29,10 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
         dataBinding.simpleForm.setData(getFormData(), callback = this)
         setContentView(dataBinding.root)
 
-//        dataBinding.signInButton.setOnClickListener {
-//            signInAnonAndCreateUser()
-//        }
+        dataBinding.signInAnon.setOnClickListener {
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun signInAnonAndCreateUser() {
