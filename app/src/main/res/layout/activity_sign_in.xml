@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
+        android:gravity="center"
         android:background= "@color/black" />
 
     <Button
@@ -39,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Anon Sign Up"
+        android:gravity="center"
         android:background= "@color/black" />
 
 
