@@ -40,9 +40,9 @@ class SignInActivity : AppCompatActivity(), FormSubmitCallback{
             Form(
                 formType = FormTypes.SINGLE_LINE_TEXT,
                 question = "Email",
-                hint = "please enter your Email address",
+                hint = "Please enter your email address:",
                 singleLineTextType = SingleLineTextType.EMAIL_ADDRESS,
-                errorMessage = "Please provide a valid email address",
+                errorMessage = "Error: Please provide a valid email address",
 
                 )
         )
@@ -50,9 +50,9 @@ class SignInActivity : AppCompatActivity(), FormSubmitCallback{
             Form(
                 formType = FormTypes.SINGLE_LINE_TEXT,
                 question = "Password",
-                hint = "please enter a password",
+                hint = "Please enter a password",
                 singleLineTextType = SingleLineTextType.TEXT,
-                errorMessage = "Please provide a password"
+                errorMessage = "Error: Please provide a password"
             )
         )
         return forms
