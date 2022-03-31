@@ -28,7 +28,6 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
         dataBinding = ActivityAuthBinding.inflate(layoutInflater)
         dataBinding.simpleForm.setData(getFormData(), callback = this)
         setContentView(dataBinding.root)
-
         dataBinding.signInAnon.setOnClickListener {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)

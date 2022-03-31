@@ -10,6 +10,14 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_up" />
 
+    <com.pradeep.form.simple_form.presentation.SimpleFormView
+        android:id="@+id/simpleForm2"
+        android:layout_width="wrap_content"
+        android:layout_height="375dp"
+        android:background="@color/black">
+
+    </com.pradeep.form.simple_form.presentation.SimpleFormView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
