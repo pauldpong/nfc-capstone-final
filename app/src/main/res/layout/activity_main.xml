@@ -17,6 +17,18 @@
         app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/icon_primary"
+        app:borderWidth="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/upload_fab"
+        app:layout_constraintEnd_toEndOf="@+id/upload_fab"
+        app:srcCompat="@drawable/ic_search"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/upload_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

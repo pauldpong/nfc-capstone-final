@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.capstone.nfc.Constants.AUTH_INTENT
+import com.capstone.nfc.Constants.SEARCH_TYPE
 import com.capstone.nfc.R
 import com.capstone.nfc.data.Response
 import com.capstone.nfc.databinding.ActivityMainBinding
@@ -115,6 +116,11 @@ class MainActivity : AppCompatActivity() {
 
             toggleFab()
         }
+
+        dataBinding.searchFab.setOnClickListener {
+            onSearchRequested()
+            toggleFab()
+        }
     }
 
     private fun toggleFab() {
@@ -126,9 +132,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAnimation(expanded: Boolean) {
         if (!expanded) {
+            dataBinding.searchFab.visibility = View.VISIBLE
             dataBinding.readFab.visibility = View.VISIBLE
             dataBinding.uploadFab.visibility = View.VISIBLE
         } else {
+            dataBinding.searchFab.visibility = View.INVISIBLE
             dataBinding.readFab.visibility = View.INVISIBLE
             dataBinding.uploadFab.visibility = View.INVISIBLE
         }
@@ -136,10 +144,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setVisibility(expanded: Boolean) {
         if (!expanded) {
+            dataBinding.searchFab.startAnimation(fromBottom)
             dataBinding.readFab.startAnimation(fromBottom)
             dataBinding.uploadFab.startAnimation(fromBottom)
             dataBinding.fab.startAnimation(rotateOpen)
         } else {
+            dataBinding.searchFab.startAnimation(toBottom)
             dataBinding.readFab.startAnimation(toBottom)
             dataBinding.uploadFab.startAnimation(toBottom)
             dataBinding.fab.startAnimation(rotateClose)
@@ -148,9 +158,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setClickable(expanded: Boolean) {
         if (!expanded) {
+            dataBinding.searchFab.isClickable = true
             dataBinding.readFab.isClickable = true
             dataBinding.uploadFab.isClickable = true
         } else {
+            dataBinding.searchFab.isClickable = false
             dataBinding.readFab.isClickable = false
             dataBinding.uploadFab.isClickable = false
         }
@@ -163,5 +175,13 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    override fun onSearchRequested(): Boolean {
+        val appData = Bundle().apply {
+            putBoolean(SEARCH_TYPE, true)
+        }
+        startSearch(null, false, appData, false)
+        return true
     }
 }
