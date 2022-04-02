@@ -82,8 +82,8 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>(FragmentSearchBinding:
     fun searchFiles (query: String) {
         //need to search files and add it to view
         //getting my files
+        var found : Boolean = false
         model.getMyFiles().observe(viewLifecycleOwner) {
-            var found : Boolean = false
             if (it.isNotEmpty()) {
                 //search the file for the query
                 val result = mutableListOf<StorageFile>()
@@ -126,14 +126,13 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>(FragmentSearchBinding:
                     }
 
                 }
+                if(found) {
+                    dataBinding.emptyListPlaceholder.visibility = View.GONE
+                } else {
+                    dataBinding.emptyListPlaceholder.visibility = View.VISIBLE
+                }
+                dataBinding.progressBarPlaceHolder.visibility = View.GONE
             }
-
-            if(found) {
-                dataBinding.emptyListPlaceholder.visibility = View.GONE
-            } else {
-                dataBinding.emptyListPlaceholder.visibility = View.VISIBLE
-            }
-            dataBinding.progressBarPlaceHolder.visibility = View.GONE
 
         }
     }
