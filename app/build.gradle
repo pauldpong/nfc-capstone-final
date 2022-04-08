@@ -46,6 +46,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     //AndroidX
     implementation "androidx.core:core-ktx:$core_version"
@@ -77,6 +78,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'commons-io:commons-io:2.8.0'
     implementation "com.airbnb.android:lottie:5.0.3"
+
+    implementation 'com.github.lspradeep:simple-form:v1.0.1'
+
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

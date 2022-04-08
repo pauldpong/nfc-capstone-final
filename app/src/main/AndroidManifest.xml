@@ -46,7 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.AuthActivity" />
         <activity android:name=".main.MainActivity" >
             <meta-data android:name="android.app.default_searchable"
                        android:value=".ui.search.SearchableActivity" />
@@ -66,5 +65,4 @@
                 android:resource="@xml/apduservice" />
         </service>
     </application>
-
 </manifest>

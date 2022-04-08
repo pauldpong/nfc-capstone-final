@@ -12,7 +12,7 @@ import com.capstone.nfc.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
+class  DashboardFragment: BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
     private val model by viewModels<DashboardViewModel>()
     private lateinit var myFilesAdapter: FileViewAdapter
 

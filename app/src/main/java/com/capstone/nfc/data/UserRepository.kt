@@ -54,6 +54,20 @@ class UserRepository @Inject constructor(
         }
     }
 
+    fun createUser(email: String?) = flow {
+        try {
+            emit(Loading)
+            auth.currentUser?.apply { // If user is logged in, currentUser != null
+                val newUser = User(displayName, email, "123-456-7891")
+                usersRef.document(uid).set(newUser).await().also {
+                    emit(Success(it))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Failure(e.message ?: Constants.DEFAULT_ERROR_MESSAGE))
+        }
+    }
+
 
     fun getSharedFiles() = callbackFlow {
         auth.currentUser?.apply {
