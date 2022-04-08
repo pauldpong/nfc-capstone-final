@@ -11,4 +11,6 @@ object Constants {
     const val SPLASH_INTENT = "splashIntent"
     const val AUTH_INTENT = "authIntent"
     const val MAIN_INTENT = "mainIntent"
+
+    const val SEARCH_TYPE = "searchType"
 }

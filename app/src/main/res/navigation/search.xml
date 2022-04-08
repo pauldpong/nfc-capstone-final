@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search"
+    app:startDestination="@id/searchScreen">
+
+    <fragment
+        android:id="@+id/searchScreen"
+        android:name="com.capstone.nfc.ui.search.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_search_to_fileManagementFragment"
+            app:destination="@id/fileManagementFragment" />
+        <action
+            android:id="@+id/action_search_to_writerActivity"
+            app:destination="@id/writerActivity" />
+        <action
+            android:id="@+id/action_search_to_filePreviewFragment2"
+            app:destination="@id/filePreviewFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/filePreviewFragment"
+        android:name="com.capstone.nfc.ui.preview.FilePreviewFragment"
+        android:label="FilePreviewFragment" >
+        <argument
+            android:name="filePath"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileManagementFragment"
+        android:name="com.capstone.nfc.ui.file_management.FileManagementFragment"
+        android:label="FileManagementFragment" >
+        <action
+            android:id="@+id/action_fileManagementFragment_to_filePreviewFragment"
+            app:destination="@id/filePreviewFragment" />
+        <argument
+            android:name="file"
+            app:argType="com.capstone.nfc.data.StorageFile" />
+    </fragment>
+    <activity
+        android:id="@+id/writerActivity"
+        android:name="com.capstone.nfc.ui.writer.WriterActivity"
+        android:label="WriterActivity" >
+        <argument
+            android:name="file"
+            app:argType="com.capstone.nfc.data.StorageFile" />
+    </activity>
+    <fragment
+        android:id="@+id/filePreviewFragment2"
+        android:name="com.capstone.nfc.ui.preview.FilePreviewFragment"
+        android:label="FilePreviewFragment" >
+        <argument android:name="filePath"
+            app:argType="string" />
+    </fragment>
+</navigation>

@@ -33,4 +33,6 @@
     <string name="sign_in_anon">Sign in Anon</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="search_hint">Search filename</string>
+    <string name="search_title">Search results</string>
 </resources>

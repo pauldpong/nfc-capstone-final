@@ -29,7 +29,6 @@ class SharedFragment: BaseFragment<FragmentSharedBinding>(FragmentSharedBinding:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         dataBinding.sharedFiles.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)
 
@@ -49,6 +48,7 @@ class SharedFragment: BaseFragment<FragmentSharedBinding>(FragmentSharedBinding:
             myFilesAdapter = SharedFileViewAdapter(onClick)
             adapter = myFilesAdapter
         }
+
 
         model.sharedFiles.observe(viewLifecycleOwner) {
             when (it) {

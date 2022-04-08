@@ -84,6 +84,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
 }
 
 kapt {
