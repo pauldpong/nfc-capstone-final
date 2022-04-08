@@ -19,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.capstone.nfc.Constants
 import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.R
 import com.capstone.nfc.data.Response
@@ -35,8 +36,8 @@ import com.pradeep.form.simple_form.utils.SimpleFormUtils
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    @Named(AUTH_INTENT) @Inject
-    lateinit var authIntent: Intent
+    @Named(Constants.SPLASH_INTENT) @Inject
+    lateinit var splashIntent: Intent
     private lateinit var dataBinding: ActivityMainBinding
     private val viewModel by viewModels<MainViewModel>()
 
@@ -162,7 +163,7 @@ class MainActivity : AppCompatActivity() {
     private fun observeAuthState() {
         viewModel.getAuthState().observe(this) { isUserSignedOut ->
             if (isUserSignedOut) {
-                startActivity(authIntent)
+                startActivity(splashIntent)
                 finish()
             }
         }

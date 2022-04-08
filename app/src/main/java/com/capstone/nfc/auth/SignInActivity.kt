@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.nfc.Constants.MAIN_INTENT
+import com.capstone.nfc.data.Response
 import com.capstone.nfc.databinding.ActivitySignInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,6 +32,23 @@ class SignInActivity : AppCompatActivity(), FormSubmitCallback{
         dataBinding.signUpButton.setOnClickListener{
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
+        }
+
+        dataBinding.anonSignIn.setOnClickListener {
+            signInAnonAndCreateUser()
+        }
+    }
+
+    private fun signInAnonAndCreateUser() {
+        viewModel.signInAnon().observe(this) { response ->
+            if (response is Response.Success) {
+                viewModel.createUser().observe(this) {
+                    if (it is Response.Success) {
+                        startActivity(mainIntent)
+                        finish()
+                    }
+                }
+            }
         }
     }
 

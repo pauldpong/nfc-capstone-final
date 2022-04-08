@@ -1,20 +1,24 @@
 package com.capstone.nfc.auth
 
-import android.net.Uri
-import android.util.Log
-import androidx.lifecycle.*
-import com.capstone.nfc.data.*
-import com.google.firebase.storage.ListResult
-import com.google.firebase.storage.StorageReference
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.capstone.nfc.data.AuthRepository
+import com.capstone.nfc.data.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SignInViewModel(
-
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ): ViewModel() {
+    fun signInAnon() = liveData(Dispatchers.IO) {
+        authRepository.signInAnon().collect { response -> emit(response) }
+    }
 
+    fun createUser() = liveData(Dispatchers.IO) {
+        userRepository.createUser().collect { response -> emit(response) }
+    }
 }

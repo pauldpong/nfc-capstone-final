@@ -3,16 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black">
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Title"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name" />
 
     <com.pradeep.form.simple_form.presentation.SimpleFormView
         android:id="@+id/simpleForm2"
         android:layout_width="wrap_content"
-        android:layout_height="375dp"
-        android:background="@color/black">
-
-    </com.pradeep.form.simple_form.presentation.SimpleFormView>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/signUpButton"
@@ -27,23 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Anon Sign In"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:background= "@color/black" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black">
-
-
-<!--        <Button-->
-<!--            android:id="@+id/signInAnon"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/sign_in" />-->
-    </LinearLayout>
-
-
-
+        android:layout_gravity="center_vertical|center_horizontal" />
 
 </LinearLayout>

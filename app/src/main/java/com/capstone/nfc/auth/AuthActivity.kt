@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.capstone.nfc.Constants.MAIN_INTENT
 import com.capstone.nfc.data.Response.*
 import com.capstone.nfc.databinding.ActivityAuthBinding
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
+import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -23,6 +27,12 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
     private lateinit var dataBinding: ActivityAuthBinding
     private val viewModel by viewModels<AuthViewModel>()
 
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()
+    ) { res ->
+        this.onSignInResult(res)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = ActivityAuthBinding.inflate(layoutInflater)
@@ -31,6 +41,38 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
         dataBinding.signInAnon.setOnClickListener {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun createSignInIntent() {
+        // Choose authentication providers
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder()
+                .setRequireName(true)
+                .build(),
+            AuthUI.IdpConfig.AnonymousBuilder().build()
+        )
+
+        // Create and launch sign-in intent
+        val signInIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setIsSmartLockEnabled(false)
+            .setAvailableProviders(providers)
+            .build()
+        signInLauncher.launch(signInIntent)
+    }
+
+    private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+        val response = result.idpResponse
+        if (result.resultCode == RESULT_OK) {
+            // Successfully signed in
+            val user = FirebaseAuth.getInstance().currentUser
+            // ...
+        } else {
+            // Sign in failed. If response is null the user canceled the
+            // sign-in flow using the back button. Otherwise check
+            // response.getError().getErrorCode() and handle the error.
+            // ...
         }
     }
 
@@ -61,7 +103,7 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
             Form(
                 formType = FormTypes.SINGLE_LINE_TEXT,
                 question = "Email",
-                hint = "please enter your Email address",
+                hint = "please enter your email address",
                 singleLineTextType = SingleLineTextType.EMAIL_ADDRESS,
                 errorMessage = "Please provide a valid email address",
 
@@ -71,7 +113,7 @@ class AuthActivity : AppCompatActivity(), FormSubmitCallback {
             Form(
                 formType = FormTypes.SINGLE_LINE_TEXT,
                 question = "Password",
-                hint = "please enter a password",
+                hint = "Please enter a password",
                 singleLineTextType = SingleLineTextType.TEXT,
                 errorMessage = "Please provide a password"
             )
