@@ -7,7 +7,6 @@ import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.Constants.MAIN_INTENT
 import com.capstone.nfc.Constants.SPLASH_INTENT
 import com.capstone.nfc.main.MainActivity
-import com.capstone.nfc.auth.AuthActivity
 import com.capstone.nfc.splash.SplashActivity
 import dagger.Module
 import dagger.Provides
@@ -27,12 +26,6 @@ class AppModule {
     @Named(SPLASH_INTENT)
     fun provideSplashIntent(context: Context): Intent {
         return Intent(context, SplashActivity::class.java)
-    }
-
-    @Provides
-    @Named(AUTH_INTENT)
-    fun provideAuthIntent(context: Context): Intent {
-        return Intent(context, AuthActivity::class.java)
     }
 
     @Provides

@@ -21,7 +21,6 @@ import javax.inject.Named
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-    @Named(AUTH_INTENT) @Inject lateinit var authIntent: Intent
     @Named(MAIN_INTENT) @Inject lateinit var mainIntent: Intent
     private val viewModel by viewModels<SplashViewModel>()
 
