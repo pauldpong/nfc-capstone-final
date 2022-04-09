@@ -26,13 +26,12 @@ import com.capstone.nfc.R
 import com.capstone.nfc.data.Response
 import com.capstone.nfc.databinding.ActivityMainBinding
 import com.capstone.nfc.ui.dashboard.DashboardFragment
+import com.downloader.PRDownloader
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
-import com.pradeep.form.simple_form.model.Form
-import com.pradeep.form.simple_form.utils.SimpleFormUtils
 
 
 @AndroidEntryPoint
@@ -58,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         dataBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(dataBinding.root)
+
+        PRDownloader.initialize(this)
 
         fileChooserActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {

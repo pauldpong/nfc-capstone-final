@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.nfc.Constants.AUTH_INTENT
 import com.capstone.nfc.Constants.MAIN_INTENT
+import com.capstone.nfc.R
 import com.capstone.nfc.data.Response
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -47,6 +48,8 @@ class SplashActivity : AppCompatActivity() {
             .createSignInIntentBuilder()
             .setIsSmartLockEnabled(false)
             .setAvailableProviders(providers)
+            .setTheme(R.style.LoginTheme)
+            .setLogo(R.drawable.ic_busy)
             .build()
         signInLauncher.launch(signInIntent)
     }

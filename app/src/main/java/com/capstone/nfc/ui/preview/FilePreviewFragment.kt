@@ -28,29 +28,20 @@ class FilePreviewFragment: BaseFragment<FragmentPreviewBinding>(FragmentPreviewB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        PRDownloader.initialize(getContext())
+//        PRDownloader.initialize(context)
 
         dataBinding.preview.settings.loadWithOverviewMode = true
         dataBinding.preview.settings.useWideViewPort = true
 
         viewModel.getFile(args.filePath).observe(viewLifecycleOwner) { response ->
             if (response is Success) {
-//                val intent = Intent(Intent.ACTION_VIEW)
-//                intent.setDataAndType(Uri.parse(response.data.toString()), "application/pdf")
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                val newIntent = Intent.createChooser(intent, "Open File")
-//                try {
-//                    startActivity(newIntent)
-//                } catch (e: ActivityNotFoundException) {
-//                    // Instruct the user to install a PDF reader here, or something
-//                }
                 var file_url : String = response.data.toString()
                 Log.i(TAG, file_url)
                 var pdf : Boolean = file_url.contains(".pdf")
                 if (pdf) {
                     dataBinding.preview.visibility = View.GONE
                     dataBinding.pdfView.visibility = View.VISIBLE
-                    getContext()?.let { getRootDirPath(it) }
+                    context?.let { getRootDirPath(it) }
                         ?.let { downloadPdfFromInternet(file_url, it, "placeholder") }
                     dataBinding.preview.loadUrl(file_url)
                 } else {
@@ -81,7 +72,7 @@ class FilePreviewFragment: BaseFragment<FragmentPreviewBinding>(FragmentPreviewB
 
                 override fun onError(error: com.downloader.Error?) {
                     Toast.makeText(
-                        getContext(),
+                        context,
                         "Error in downloading file : $error",
                         Toast.LENGTH_LONG
                     )

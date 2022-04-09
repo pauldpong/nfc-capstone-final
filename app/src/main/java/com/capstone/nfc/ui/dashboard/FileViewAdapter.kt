@@ -3,18 +3,25 @@ package com.capstone.nfc.ui.dashboard
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.nfc.R
 import com.capstone.nfc.data.StorageFile
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 import org.apache.commons.io.FileUtils
 import java.io.File
 import java.net.URL
@@ -58,15 +65,36 @@ class FileViewAdapter(private val onClick: (StorageFile) -> Unit, private val on
 
             // File Preview
             if (file.type == "application/pdf") {
-//                val tempFile: File = File.createTempFile(file.name, null, itemView.context.cacheDir)
-//                FileUtils.copyURLToFile(URL(file.downloadUrl.toString()), tempFile)
-//
-//                filePreview.setImageBitmap(pdfToBitmap(tempFile))
+                downloadPdfFromInternet(file.downloadUrl, itemView.context.cacheDir.absolutePath, file.name)
             } else {
                 // .placeholder(R.drawable.user_placeholder)
                 // .error(R.drawable.user_placeholder_error)
                 Picasso.get().load(file.downloadUrl).fit().centerCrop().into(filePreview)
             }
+        }
+
+        private fun downloadPdfFromInternet(url: String, dirPath: String, fileName: String) {
+            PRDownloader.download(
+                url,
+                dirPath,
+                fileName
+            ).build()
+                .start(object : OnDownloadListener {
+                    override fun onDownloadComplete() {
+                        val downloadedFile = File(dirPath, fileName)
+                        filePreview.setImageBitmap(pdfToBitmap(downloadedFile))
+                        filePreview.scaleType = ImageView.ScaleType.CENTER_CROP
+                    }
+
+                    override fun onError(error: com.downloader.Error?) {
+                        Toast.makeText(
+                            itemView.context,
+                            "Error in downloading file : $error",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                })
         }
 
         private fun pdfToBitmap(pdfFile: File): Bitmap? {

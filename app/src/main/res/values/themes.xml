@@ -24,6 +24,23 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="LoginTheme" parent="FirebaseUI">
+        <item name="colorPrimary">#8ACBE8</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorControlNormal">@android:color/black</item>
+        <item name="colorControlActivated">@android:color/black</item>
+        <item name="colorControlHighlight">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:windowBackground">@color/background_primary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
     <style name="Theme.NFC.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

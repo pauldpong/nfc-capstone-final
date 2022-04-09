@@ -30,7 +30,6 @@ class SharedFileViewAdapter(private val onClick: (FileMetadata) -> Unit) : ListA
             currentFile = file
             fileName.text = file.name
 
-            Log.e("test", file.type)
             with (file.type) {
                 when {
                     equals("image/jpeg") -> fileIcon.setImageDrawable(AppCompatResources.getDrawable(itemView.context, R.drawable.ic_jpg))
